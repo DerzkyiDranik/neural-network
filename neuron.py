@@ -4,8 +4,12 @@ def neuron(x, w, b):
 def loss(prediction, target):
     return (prediction- target) ** 2
 
-prediction = neuron(3, 1, 0)
+x = 3
 target = 6
+b = 0
 
-print(prediction)
-print(loss(prediction, target))
+for w in [0, 1, 2, 3, 4]:
+    prediction = neuron(x, w, b)
+    error = loss(prediction,target)
+
+    print("w", w, "prediction:", prediction, "loss", error)
