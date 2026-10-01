@@ -30,3 +30,17 @@ for w in [0, 1, 2, 3, 4]:
     new_loss = loss(new_prediction, target)
 
     print("New loss:", new_loss)
+
+    gradient = 2 * x * (prediction - target)
+
+    learning_rate = 0.1
+
+    w = w - learning_rate * gradient
+
+    print("New w:", w)
+
+    new_prediction = neuron(x, w, b)
+    new_loss + loss(new_prediction, target)
+
+    print("New prediction:")
+    print("New loss:", new_loss)
