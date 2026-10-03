@@ -18,6 +18,14 @@ learning_rate = 0.1
 print(data)
 
 for epoch in range(100):
+    print("Final weight:", w)
+
+    x = 5
+
+    prediction = neuron(x, w, b)
+
+    print("Prediction", prediction)
+
     total_loss = 0
 
     for x, target in data:
@@ -32,10 +40,10 @@ for epoch in range(100):
 
         w = w - learning_rate * gradient
 
-        average_loss = total_loss / len(data)
+    average_loss = total_loss / len(data)
 
-        print("Epoch:", epoch, "Average loss:", average_loss)
+    print("Epoch:", epoch, "Average loss:", average_loss)
 
-        print("x:", x, "target:", target, "prediction:", prediction, "loss", current_loss)
+    print("x:", x, "target:", target, "prediction:", prediction, "loss", current_loss)
 
 
