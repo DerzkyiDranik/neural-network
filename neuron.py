@@ -5,10 +5,11 @@ def loss(prediction, target):
     return (prediction- target) ** 2
 
 data = [
-    (1, 2),
-    (2, 4),
-    (3, 6),
-    (4, 8)
+    (1, 10),
+    (2, 12),
+    (3, 14),
+    (4, 16),
+    (5, 18)
 ]
 
 w = 1
@@ -36,14 +37,18 @@ for epoch in range(100):
         
         total_loss = total_loss + current_loss
         
-        gradient = 2 * x * (prediction - target)
+        gradient_w = 2 * x * (prediction - target)
 
-        w = w - learning_rate * gradient
+        gradient_b = 2 * (prediction - target)
+
+        w = w - learning_rate * gradient_w
+
+        b = b - learning_rate * gradient_b
 
     average_loss = total_loss / len(data)
 
     print("Epoch:", epoch, "Average loss:", average_loss)
 
     print("x:", x, "target:", target, "prediction:", prediction, "loss", current_loss)
-
-
+print("Final weight:", w)
+print("Final bias:", b)
