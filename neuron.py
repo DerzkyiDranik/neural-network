@@ -1,5 +1,19 @@
-def layer(x, weights, biases):
-    return weights @ x + biases
+import numpy as np
+
+def relu(x):
+    return np.maximum(0, x)
+
+def forward_layer(x, weights, biases):
+    z = weights @ x + biases
+    output = relu(z)
+    
+    return z, output
+
+def create_layer(input_size, output_size):
+    weights = np.random.randn(output_size, input_size) * 0.1
+    biases = np.zeros(output_size)
+    
+    return weights, biases
 
 data = [
     ([1, 1], [10, 12, 13]),
@@ -8,8 +22,6 @@ data = [
     ([3, 2], [17, 19, 20]),
     ([2, 2], [15, 17, 19])
 ]
-
-import numpy as np
 
 weights = np.array([
     [1, 1],
@@ -30,14 +42,30 @@ for epoch in range(100):
     for x, targets in data:
         x = np.array(x, dtype=float)
         targets = np.array(targets, dtype=float)
-
-        predictions = layer(x, weights, biases)
         
-        current_loss = np.sum((predictions - targets) ** 2)
-        total_loss = total_loss + current_loss
+        z, predictions = forward_layer(x, weights, biases)
         
-        gradient_weights = 2 * np.outer(predictions - targets, x)
-        gradient_biases = 2 * (predictions - targets)
+        erorrs = predictions - targets
+        
+        current_loss = np.sum(erorrs ** 2)
+        total_loss += current_loss
+        
+        gradient = 2 * erorrs * (z > 0)
+        
+        gradient_weights = np.outer(gradient, x)
+        gradient_biases = gradient
         
         weights = weights - learning_rate * gradient_weights
         biases = biases - learning_rate * gradient_biases
+        
+        average_loss = total_loss / (len(data) * 3)
+        loss_history.append(average_loss)
+        
+        if epoch % 10 ==0:
+            print("Epoch:", epoch)
+            print("Average loss:", average_loss)
+            
+    print("initial:", loss_history[0])
+    print("Final loss:", loss_history[-1])
+    print("Weights:", weights)
+    print("Biases:", biases)
