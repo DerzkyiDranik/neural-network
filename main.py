@@ -11,15 +11,26 @@ data = [
 def main():
     network = Network(
         layer_sizes=[2, 4, 3],
-        learning_rate=0.01
+        learning_rate=0.001
     )
     
-    network.train(data, epochs=1000)
+    network.train(data, epochs=5000)
     
-    prediction = network.predict([1, 1])
+    loss = network.evaluate(data)
+    print(f"\nИтоговый Loss: {loss:.4f}")
     
-    print("\nПредсказание для [1, 1]:")
-    print(prediction)
+    test_inputs = [
+        [1, 1],
+        [1, 2],
+        [2, 1]
+    ]
+    
+    print("\nПредсказание:")
+    
+    for inputs in test_inputs:
+        prediction = network.predict(inputs)
+        
+        print(f"Вход: {inputs} -> Предсказание: {prediction}")
     
 if __name__ == "__main__":
     main()
