@@ -53,13 +53,31 @@ class Network:
             predictions = self.predict(inputs)
             total_loss += mse_loss(predictions, targets) * len(targets)
             
-            return total_loss / sum(
-                len(targets) for _, targets in data
-            )
+        return total_loss / sum(
+            len(targets) for _, targets in data
+        )
     
     def predict(self, x):
         x = np.array(x, dtype=float)
         return self.forward(x)
+    
+    def save(self, filepath="model.npz"):
+        parameters = {}
+        
+        for i, layer in enumerate(self.layers):
+            parameters[f"weights_{i}"] = layer.weights
+            parameters[f"biases_{i}"] = layer.biases
+                
+        np.savez(filepath, **parameters)
+        
+    def load(self, filepath="model.npz"):
+        with np.load(filepath) as parameters:
+        
+            for i, layer in enumerate(self.layers):
+                layer.weights = parameters[f"weights_{i}"].copy()
+                layer.biases = parameters[f"biases_{i}"].copy()
+                
+                parameters.close
     
     def train(self, data, epochs=1000):
         for epoch in range(epochs):
