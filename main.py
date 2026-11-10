@@ -19,7 +19,11 @@ def main():
         learning_rate=0.001
     )
     
-    network.train(train_data, epochs=5000)
+    network.train(
+        train_data, 
+        validation_data=test_data,
+        epochs=5000
+    )
     
     train_loss = network.evaluate(train_data)
     test_loss = network.evaluate(train_data)
